@@ -5,7 +5,7 @@ using MediatR;
 
 namespace LMS.Application.Students.Queries.GetStudentDetails
 {
-    public class GetStudentDetailsHandler : IRequestHandler<GetStudentDetailsQuery, StudentBasicInfoDto>
+    public class GetStudentDetailsHandler : IRequestHandler<GetStudentDetailsQuery, StudentDetailesDto>
     {
         private readonly IStudentRepository _repo;
 
@@ -14,11 +14,13 @@ namespace LMS.Application.Students.Queries.GetStudentDetails
             _repo = repo;
         }
 
-        public async Task<StudentBasicInfoDto> Handle(GetStudentDetailsQuery request, CancellationToken cancellationToken)
+        public async Task<StudentDetailesDto> Handle(GetStudentDetailsQuery request, CancellationToken cancellationToken)
         {
             var student = await _repo.GetByIdAsync(request.Id) ?? throw new KeyNotFoundException("Student not found");
-            return new StudentBasicInfoDto
+
+            return new StudentDetailesDto
             {
+                Id = student.Id,
                 DateOfBirth = student.DateOfBirth,
                 Email = student.Email.ToString(),
                 EnrollmentYear = student.EnrollmentYear,
@@ -28,8 +30,26 @@ namespace LMS.Application.Students.Queries.GetStudentDetails
                 LastName = student.LastName,
                 Mobile = student.Mobile.ToString(),
                 Nationality = student.Nationality,
-                Notes = student.Notes
+                Notes = student.Notes,
+                Parent = new ParentDetailesDto
+                {
+                    Id = student.Parent.Id,
+                    Email = student.Parent.Email.ToString(),
+                    FirstName = student.Parent.FirstName,
+                    LastName = student.Parent.LastName,
+                    Occupation = student.Parent.Occupation,
+                    PhoneNumber = student.Parent.PhoneNumber.ToString()
+                },
+                Guardian = new GuardianDeatilesDto
+                {
+                    Id = student.Guardian.Id,
+                    ContactInfo = student.Guardian.ContactInfo,
+                    FullName = student.Guardian.FullName,
+                    Relationship = student.Guardian.Relationship
+                }
+
             };
+
         }
     }
 }

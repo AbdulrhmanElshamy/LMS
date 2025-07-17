@@ -4,7 +4,7 @@ using MediatR;
 
 namespace LMS.Application.Students.Commands.DeleteStudent
 {
-    public class DeleteStudentHandler : IRequestHandler<DeleteStudentCommand,Unit>
+    public class DeleteStudentHandler : IRequestHandler<DeleteStudentCommand, Unit>
     {
         private readonly IStudentRepository _repo;
         private readonly IUnitOfWork _uow;

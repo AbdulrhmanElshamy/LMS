@@ -20,10 +20,16 @@ namespace LMS.Application.Students.Commands.CreateStudentWithParentAndGuardian
 
         public async Task<Guid> Handle(CreateStudentWithParentAndGuardianCommand request, CancellationToken cancellationToken)
         {
-
             Guard.Against.Null(request.Parent);
 
-            var student = new Student (
+            var isExisitEmail = await _repo.ExistsByEmailAsync(request.Student.Email);
+
+            if(isExisitEmail)
+            throw new ArgumentException("this emial is already exist");
+
+
+
+            var student = new Student(
                 request.Student.FirstName,
                 request.Student.LastName,
                 request.Student.DateOfBirth,

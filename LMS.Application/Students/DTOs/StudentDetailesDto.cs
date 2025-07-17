@@ -2,8 +2,10 @@
 
 namespace LMS.Application.Students.DTOs
 {
-    public class StudentBasicInfoDto
+    public class StudentDetailesDto
     {
+        public Guid Id { get; set; }
+
         public string FirstName { get; set; } = default!;
         public string LastName { get; set; } = default!;
         public DateTime DateOfBirth { get; set; }
@@ -14,8 +16,11 @@ namespace LMS.Application.Students.DTOs
         public int EnrollmentYear { get; set; }
         public string? Notes { get; set; }
         public string Language { get; set; } = default!;
+
+        public ParentDetailesDto Parent { get; set; } = default!;
+
+        public GuardianDeatilesDto Guardian { get; set; } = default!;
+
     }
-
-
 
 }

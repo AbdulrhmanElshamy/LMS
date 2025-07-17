@@ -4,7 +4,7 @@ using MediatR;
 
 namespace LMS.Application.Students.Queries.GetParentAndGuardianByStudentId
 {
-    public class GetParentAndGuardianByStudentIdHandler : IRequestHandler<GetParentAndGuardianByStudentIdQuery, (ParentDto, GuardianDto)>
+    public class GetParentAndGuardianByStudentIdHandler : IRequestHandler<GetParentAndGuardianByStudentIdQuery, ParentGuardianDetailes>
     {
         private readonly IStudentRepository _repo;
 
@@ -13,25 +13,27 @@ namespace LMS.Application.Students.Queries.GetParentAndGuardianByStudentId
             _repo = repo;
         }
 
-        public async Task<(ParentDto, GuardianDto)> Handle(GetParentAndGuardianByStudentIdQuery request, CancellationToken cancellationToken)
+        public async Task<ParentGuardianDetailes> Handle(GetParentAndGuardianByStudentIdQuery request, CancellationToken cancellationToken)
         {
             var student = await _repo.GetByIdAsync(request.StudentId) ?? throw new KeyNotFoundException("Student not found");
-            return (
-                new ParentDto
+            return new ParentGuardianDetailes
+            {
+                Parent = new ParentDetailesDto
                 {
+                    Id = student.Id,
                     Email = student.Parent?.Email!.ToString() ?? "",
-                    FirstName = student.Parent?.FirstName ??  "",
+                    FirstName = student.Parent?.FirstName ?? "",
                     LastName = student.Parent?.LastName ?? "",
                     Occupation = student.Parent?.Occupation ?? "",
                     PhoneNumber = student.Parent?.PhoneNumber!.ToString() ?? ""
                 },
-                new GuardianDto
+                Guardian = new GuardianDeatilesDto
                 {
                     ContactInfo = student.Guardian?.ContactInfo ?? "",
                     FullName = student.Guardian?.FullName ?? "",
                     Relationship = student.Guardian?.Relationship ?? ""
                 }
-            );
+            };
         }
     }
 }

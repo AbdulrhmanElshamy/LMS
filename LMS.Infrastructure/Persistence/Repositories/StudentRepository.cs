@@ -46,7 +46,7 @@ namespace LMS.Infrastructure.Persistence.Repositories
 
         public async Task RemoveAsync(Student student)
         {
-            _context.Students.Remove(student);  
+            _context.Students.Remove(student);
         }
     }
 }

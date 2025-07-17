@@ -7,7 +7,7 @@ using MediatR;
 
 namespace LMS.Application.Students.Commands.CreateOrUpdateParent
 {
-    public class AddOrUpdateParentHandler : IRequestHandler<AddOrUpdateParentCommand,Unit>
+    public class AddOrUpdateParentHandler : IRequestHandler<AddOrUpdateParentCommand, Unit>
     {
         private readonly IStudentRepository _repo;
         private readonly IUnitOfWork _uow;
@@ -26,8 +26,8 @@ namespace LMS.Application.Students.Commands.CreateOrUpdateParent
 
             var student = await _repo.GetByIdAsync(request.StudentId) ?? throw new Exception("Student not found");
 
-            var parent = new Parent (
-                request.Parent.FirstName, 
+            var parent = new Parent(
+                request.Parent.FirstName,
                 request.Parent.LastName,
                 request.Parent.Occupation,
                 new PhoneNumber(request.Parent.PhoneNumber),
@@ -36,10 +36,10 @@ namespace LMS.Application.Students.Commands.CreateOrUpdateParent
 
             student.AssignParent(parent);
 
-            if(request.Parent.IsGuardianSameAsParent)
+            if (request.Parent.IsGuardianSameAsParent)
             {
                 Guardian guardian = Guardian.CreateFromParent(parent);
-                
+
                 student.AssignGuardian(guardian);
             }
 

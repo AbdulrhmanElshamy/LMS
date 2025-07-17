@@ -1,6 +1,5 @@
 ﻿using LMS.Domian.Common;
 using LMS.Domian.ValueObjects;
-using System;
 
 namespace LMS.Domian.Entities
 {

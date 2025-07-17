@@ -1,6 +1,6 @@
 ﻿using LMS.Domian.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LMS.Infrastructure.Persistence.Configurations
 {
@@ -24,7 +24,7 @@ namespace LMS.Infrastructure.Persistence.Configurations
                 email.Property(e => e.Value).HasColumnName("ParentEmail");
             });
         }
-    }   
+    }
 
 
 }

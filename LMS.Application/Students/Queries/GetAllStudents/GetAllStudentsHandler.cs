@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace LMS.Application.Students.Queries.GetAllStudents
 {
-    public class GetAllStudentsHandler : IRequestHandler<GetAllStudentsQuery, List<StudentBasicInfoDto>>
+    public class GetAllStudentsHandler : IRequestHandler<GetAllStudentsQuery, List<StudentDetailesDto>>
     {
         private readonly IStudentRepository _repo;
 
@@ -16,7 +16,7 @@ namespace LMS.Application.Students.Queries.GetAllStudents
             _repo = repo;
         }
 
-        public async Task<List<StudentBasicInfoDto>> Handle(GetAllStudentsQuery request, CancellationToken cancellationToken)
+        public async Task<List<StudentDetailesDto>> Handle(GetAllStudentsQuery request, CancellationToken cancellationToken)
         {
             var loweredName = request.filter?.Name?.ToLower();
             var year = request.filter?.Year;
@@ -31,8 +31,9 @@ namespace LMS.Application.Students.Queries.GetAllStudents
 
             var students = await _repo.GetAllAsync(predicate);
 
-            return students.Select(student => new StudentBasicInfoDto
+            return students.Select(student => new StudentDetailesDto
             {
+                Id = student.Id,
                 DateOfBirth = student.DateOfBirth,
                 Email = student.Email.ToString(),
                 EnrollmentYear = student.EnrollmentYear,
@@ -42,7 +43,24 @@ namespace LMS.Application.Students.Queries.GetAllStudents
                 LastName = student.LastName,
                 Mobile = student.Mobile.ToString(),
                 Nationality = student.Nationality,
-                Notes = student.Notes
+                Notes = student.Notes,
+                Parent = new ParentDetailesDto
+                {
+                    Id = student.Parent.Id,
+                    Email = student.Parent.Email.ToString(),
+                    FirstName = student.Parent.FirstName,
+                    LastName = student.Parent.LastName,
+                    Occupation = student.Parent.Occupation,
+                    PhoneNumber = student.Parent.PhoneNumber.ToString()
+                },
+                Guardian = new GuardianDeatilesDto
+                {
+                    Id = student.Guardian.Id,
+                    ContactInfo = student.Guardian.ContactInfo,
+                    FullName = student.Guardian.FullName,
+                    Relationship = student.Guardian.Relationship
+                }
+
             }).ToList();
         }
     }

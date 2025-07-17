@@ -28,7 +28,7 @@ namespace LMS.Domian.Entities
         public static Guardian CreateFromParent(Parent parent)
         {
             return new Guardian(
-                fullName:$"{parent.FirstName} {parent.LastName}",
+                fullName: $"{parent.FirstName} {parent.LastName}",
                 relationship: "Parent",
                 contactInfo: parent.PhoneNumber?.ToString() ?? ""
             );

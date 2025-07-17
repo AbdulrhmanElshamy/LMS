@@ -1,11 +1,6 @@
 ﻿using LMS.Domian.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LMS.Infrastructure.Persistence.Configurations
 {
@@ -42,5 +37,5 @@ namespace LMS.Infrastructure.Persistence.Configurations
                 .WithOne()
                 .HasForeignKey<Guardian>(g => g.StudentId);
         }
-    } 
+    }
 }

@@ -97,7 +97,7 @@ namespace LMS.API.Controllers
         public async Task<IActionResult> GetRelations(Guid id)
         {
             var result = await _mediator.Send(new GetParentAndGuardianByStudentIdQuery(id));
-            return result.Item1 is not null && result.Item2 is not null ? Ok(result) : NotFound();
+            return result is not null ? Ok(result) : NotFound();
         }
     }
 

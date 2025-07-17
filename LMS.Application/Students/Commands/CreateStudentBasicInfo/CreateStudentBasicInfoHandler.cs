@@ -20,10 +20,17 @@ namespace LMS.Application.Students.Commands.CreateStudentBasicInfo
 
         public async Task<Guid> Handle(CreateStudentBasicInfoCommand request, CancellationToken cancellationToken)
         {
+
+
             Guard.Against.Null(request.Student, nameof(request.Student));
 
+            var isExisitEmail = await _repo.ExistsByEmailAsync(request.Student.Email);
+
+            if (isExisitEmail)
+                throw new ArgumentException("this emial is already exist");
+
             var student = new Student(
-                request.Student.FirstName, 
+                request.Student.FirstName,
                 request.Student.LastName,
                 request.Student.DateOfBirth,
                 request.Student.Gender,

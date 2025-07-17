@@ -1,10 +1,10 @@
 ﻿using LMS.Application.Common.Interfaces;
 using LMS.Domian.Interfaces;
-using LMS.Infrastructure.Persistence.Repositories;
 using LMS.Infrastructure.Persistence;
+using LMS.Infrastructure.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Infrastructure
 {

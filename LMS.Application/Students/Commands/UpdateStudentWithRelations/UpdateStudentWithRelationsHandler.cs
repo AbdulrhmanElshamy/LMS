@@ -1,5 +1,4 @@
 ﻿using LMS.Application.Common.Interfaces;
-using LMS.Application.Students.DTOs;
 using LMS.Domian.Entities;
 using LMS.Domian.Interfaces;
 using LMS.Domian.ValueObjects;
@@ -8,7 +7,7 @@ using MediatR;
 
 namespace LMS.Application.Students.Commands.UpdateStudentWithRelations
 {
-    public class UpdateStudentWithRelationsHandler : IRequestHandler<UpdateStudentWithRelationsCommand,Unit>
+    public class UpdateStudentWithRelationsHandler : IRequestHandler<UpdateStudentWithRelationsCommand, Unit>
     {
         private readonly IStudentRepository _repo;
         private readonly IUnitOfWork _uow;
@@ -21,8 +20,13 @@ namespace LMS.Application.Students.Commands.UpdateStudentWithRelations
 
         public async Task<Unit> Handle(UpdateStudentWithRelationsCommand request, CancellationToken cancellationToken)
         {
+            var studentByEmail = await _repo.GetByEmailAsync(request.Student.Email);
+
             var student = await _repo.GetByIdAsync(request.Id) ?? throw new KeyNotFoundException("Student not found");
 
+
+            if (studentByEmail is not null && studentByEmail != student)
+                throw new ArgumentException("this emial is already exist");
 
             student.UpdateBasicInfo(request.Student.FirstName,
                 request.Student.LastName,
@@ -36,7 +40,7 @@ namespace LMS.Application.Students.Commands.UpdateStudentWithRelations
                 request.Student.Notes);
 
 
-            student.AssignParent(new Parent 
+            student.AssignParent(new Parent
                 (request.Parent.FirstName,
                 request.Parent.LastName,
                 request.Parent.Occupation,
@@ -44,7 +48,7 @@ namespace LMS.Application.Students.Commands.UpdateStudentWithRelations
                 new Email(request.Parent.Email)));
 
 
-            student.AssignGuardian(new Guardian 
+            student.AssignGuardian(new Guardian
                 (request.Guardian.FullName,
                 request.Guardian.Relationship,
                 request.Guardian.ContactInfo));

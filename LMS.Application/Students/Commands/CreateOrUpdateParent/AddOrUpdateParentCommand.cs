@@ -6,6 +6,6 @@ namespace LMS.Application.Students.Commands.CreateOrUpdateParent
     public record AddOrUpdateParentCommand(
     Guid StudentId,
     ParentDto Parent
-  ) :  IRequest<Unit>;
+  ) : IRequest<Unit>;
 
 }

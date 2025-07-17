@@ -6,7 +6,7 @@ using MediatR;
 
 namespace LMS.Application.Students.Commands.CreateOrUpdateGuardian
 {
-    public class AddOrUpdateGuardianHandler : IRequestHandler<AddOrUpdateGuardianCommand,Unit>
+    public class AddOrUpdateGuardianHandler : IRequestHandler<AddOrUpdateGuardianCommand, Unit>
     {
         private readonly IStudentRepository _repo;
         private readonly IUnitOfWork _uow;
@@ -24,7 +24,7 @@ namespace LMS.Application.Students.Commands.CreateOrUpdateGuardian
 
             var student = await _repo.GetByIdAsync(request.StudentId) ?? throw new Exception("Student not found");
 
-            var guardian = new Guardian (
+            var guardian = new Guardian(
                 request.FullName,
                 request.Relationship,
                 request.ContactInfo
